@@ -16,7 +16,8 @@ var vendorSchema = new mongoose.Schema({
            message: "Must belong to specific category..."
        },
        required:true
-   }
+   },
+   description: String
 });
 
 module.exports = mongoose.model('Vendor', vendorSchema);
