@@ -1,9 +1,9 @@
-var Product = require("../models/products"),
+var Product = require("../models/product"),
     router = require('express').Router();
 
 router.route('/')
     .get(function(req,res,next){
-       res.statusCode(200); 
+       res.sendStatus(200); 
     });
 
 module.exports = router;

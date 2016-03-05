@@ -41,10 +41,24 @@ describe('Model operations', function(){
       });
    });
    
-   it('Shows proper associations', function() {
+   it('Products associated with vendor', function() {
        return Product.findOne({name: 'Sink'}).populate('vendor')
        .then(function(product){
            expect(product.vendor.name).to.equal('GougeCo');
        });
+   });
+   it('Vendor associated with products', function(){
+      return Vendor.findOne({name: 'DNS Electronics'}).populate('products')
+      .then(function(vendor){
+         expect(vendor.products.length).to.equal(2);
+      });
+   });
+   it('Product validations', function(){
+      var product = new Product({})
+      product.validate()
+      .catch(function(err){
+         expect(err.message).to.equal('Product validation failed');
+      });
+      
    });
 });

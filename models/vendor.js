@@ -17,7 +17,11 @@ var vendorSchema = new mongoose.Schema({
        },
        required:true
    },
-   description: String
+   description: String,
+   products: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product'
+   }]
 });
 
 module.exports = mongoose.model('Vendor', vendorSchema);
