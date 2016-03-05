@@ -2,21 +2,22 @@ var RefArray = require('../utils/ref-array'),
     Promise = require('bluebird'),
     Product = require('../models/product'),
     Vendor = require('../models/vendor'),
+    dbconnect = require('./db'),
     chalk = require('chalk');
 
 var products = [
-        {   
+        {
             _id: 4,
-            name: 'Sink', 
-            quantity: 3, 
-            description: 'Ivory white, Perfect for kitchens', 
+            name: 'Sink',
+            quantity: 3,
+            description: 'Ivory white, Perfect for kitchens',
             vendor: 1
         },
         {
             _id: 5,
-            name: '8K Televison', 
-            quantity: 5, 
-            description: 'Get on the bleeding edge of entertainmemt', 
+            name: '8K Televison',
+            quantity: 5,
+            description: 'Get on the bleeding edge of entertainmemt',
             vendor: 2
         },
         {
@@ -33,7 +34,7 @@ var products = [
             description: 'The best way to dispose of incriminating documents',
             vendor: 3
         }
-    
+
     ];
 
 var vendors = [
@@ -75,4 +76,4 @@ function destroy(){
     return Promise.all([Product.remove({}), Vendor.remove({}) ]);
 }
 
-module.exports = { seed, destroy };
+module.exports = { seed, destroy, dbconnect };

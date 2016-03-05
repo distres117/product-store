@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    Promise = require('bluebird');
 
 var vendorSchema = new mongoose.Schema({
    name: {
@@ -22,6 +23,15 @@ var vendorSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Product'
    }]
+});
+
+vendorSchema.pre('remove', function(next){
+  Promise.map(this.products, function(id){
+    return mongoose.model('Product').findByIdAndRemove(id);
+  })
+  .then(function(){
+    next();
+  });
 });
 
 module.exports = mongoose.model('Vendor', vendorSchema);
