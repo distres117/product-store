@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    link(rel="stylesheet", href="/bootstrap/dist/css/bootstrap.css")
+    link(rel="stylesheet",, href="/css/style.css")
+  body
+    nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href='') Supply Store
+        ul.nav.navbar-nav
+          li.active
+            a(href='') Products
+          li
+            a(href='') Vendors
+    .container
+      block body
+    script(type='text/javascript', src='/jquery/dist/jquery.min.js')
+    script(type='text/javascript', src='/bootstrap/dist/js/bootstrap.min.js')

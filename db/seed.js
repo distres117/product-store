@@ -11,28 +11,32 @@ var products = [
             name: 'Sink',
             quantity: 3,
             description: 'Ivory white, Perfect for kitchens',
-            vendor: 1
+            vendor: 1,
+            status : 'active'
         },
         {
             _id: 5,
             name: '8K Televison',
             quantity: 5,
             description: 'Get on the bleeding edge of entertainmemt',
-            vendor: 2
+            vendor: 2,
+            status: 'active'
         },
         {
             _id: 6,
             name: 'Super-computer',
             quantity: 1,
             description: 'Now conveniently sits on your desk',
-            vendor: 2
+            vendor: 2,
+            status: 'discontinued'
         },
         {
             _id: 7,
             name: 'Cross-cut paper shredder',
             quantity: 8,
             description: 'The best way to dispose of incriminating documents',
-            vendor: 3
+            vendor: 3,
+            status: 'active'
         }
 
     ];
