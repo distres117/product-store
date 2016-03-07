@@ -22,15 +22,18 @@ app.use(function(req,res,next){ //method override
     next();
 });
 
-app.use(function(err,req,res,next){ //error-handling
-    if (err)
-        res.statusCode(500);
-    next();
-});
+
 app.get('/',function(req,res){
     res.redirect('/products');
 })
 app.use('/products',productRoutes);
 app.use('/vendors', vendorRoutes);
+
+app.use(function(err,req,res,next){ //error-handling
+    if (err)
+        res.render('error', {error: err});
+    else
+        next();
+});
 
 module.exports = app;

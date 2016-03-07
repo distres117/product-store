@@ -22,12 +22,11 @@ describe('Model operations', function(){
    before(function(){
        return seed.dbconnect()
        .then(function(){
-           seed.seed();
+          return seed.destroy();
+       })
+       .then(function(){
+          return seed.seed();
        });
-   });
-
-   after(function(){
-      return seed.destroy();
    });
 
    it('Gets all products', function() {

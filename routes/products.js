@@ -33,6 +33,9 @@ router.route('/')
       .then(function(product){
         //res.status(302).json(product);
         res.redirect('/products');
+      })
+      .catch(function(err){
+        next(err);
       });
     });
 

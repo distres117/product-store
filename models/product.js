@@ -48,7 +48,7 @@ productSchema.post('save', function(doc, next){
                next(); 
             })
             .catch(function(err){
-               console.log(err); 
+               next(err); 
             });
         } 
         else
@@ -68,8 +68,7 @@ productSchema.pre('remove', function(next){
     next();
   })
   .catch(function(err){
-     console.log(err);
-     next();
+     next(err);
   });
 });
 
