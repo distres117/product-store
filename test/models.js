@@ -52,15 +52,16 @@ describe('Model operations', function(){
          expect(vendor.products.length).to.equal(2);
       });
    });
-   it('Product validations', function(){
+   it('Product validations', function(done){
       var product = new Product({});
       product.validate()
       .catch(function(err){
          expect(err.message).to.equal('Product validation failed');
+         done();
       });
    });
    it('All vendors have at least one product', function(){
-     return Vendor.find()
+      return Vendor.find()
      .then(function(vendors){
        expect(vendors.every(it=>it.products.length)).to.equal(true);
      });
@@ -77,21 +78,30 @@ describe('Model operations', function(){
          expect(vendor.products.length).to.equal(0);
        });
      });
-     it('Adding product with vendor updates the vendors collection', function(done){
-       var newvendor;
-       Vendor.create({name: 'Test vendor', email: 'testy@test.com', type: 'Kitchen'})
-       .then(function(vendor){
-         newvendor = vendor;
-        return Product.create({name: 'Test product', description: "tesy", vendor: vendor._id});
-      })
-      .then(function(product){
-         return product.sync();
-      })
-      .then(function(){
-       console.log(newvendor);
-       expect(newvendor.products.length).to.equal(1);
-       done();
-     });
-  });
+     it('Adding product with vendor updates the vendors collection', function(){
+       return Vendor.create({name: 'Test vendor', email: 'testy@test.com', type: 'Kitchen'})
+          .then(function(vendor){
+           return Product.create({name: 'Test product', description: "tesy", vendor: vendor._id});
+         })
+         .then(function(){
+            return Vendor.findOne({name:'Test vendor'});
+         })
+         .then(function(vendor){
+            expect(vendor.products.length).to.equal(1);
+         });
+      });
+      it('Removes all vendor products when vendor is removed', function(){
+         return Vendor.findOne({name:'Test vendor'})
+         .then(function(vendor){
+            return vendor.remove();
+         })
+         .then(function(){
+            return Product.find();
+         })
+         .then(function(products){
+            expect(products.length).to.equal(3);
+         });
+      });
+   
 
 });

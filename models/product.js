@@ -31,20 +31,35 @@ var productSchema = new mongoose.Schema({
    }
 });
 
-productSchema.methods.sync = function(){
+
+function getVendor(instance){
     var Vendor = mongoose.model('Vendor');
-    var instance = this;
-    Vendor.findById(instance.vendor)
+    return Vendor.findById(instance.vendor);
+}
+
+productSchema.post('save', function(doc, next){
+    var instance = doc;
+    getVendor(instance)
     .then(function(vendor){
-      vendor.products.push(instance._id);
-      return vendor.save();
-    });
-};
+        if (vendor.products.indexOf(instance._id) === -1){
+            vendor.products.push(instance._id);
+            vendor.save()
+            .then(function(vendor){;
+               next(); 
+            })
+            .catch(function(err){
+               console.log(err); 
+            });
+        } 
+        else
+            next();
+    })
+    
+});
 
 productSchema.pre('remove', function(next){
   var instance = this;
-  var Vendor = mongoose.model('Vendor');
-  Vendor.findById(this.vendor)
+  getVendor(instance)
   .then(function(vendor){
     vendor.products.remove(instance._id);
     vendor.save();
@@ -61,35 +76,6 @@ productSchema.methods.update = function(obj){
   }
   return this.save();
 };
-//If vendor is added to product, vendor is
-//updated aswell
-// productSchema.methods.update = function(obj){
-//   for (var key in obj){
-//     if(obj[key] && key != 'vendor')
-//       this[key] = obj[key];
-//   }
-//   var instance = this;
-//   return new Promise(function(resolve,reject){
-//     instance.save()
-//     .then(function(instance){
-//       if (Object.keys(obj).indexOf('vendor') > -1){
-//           mongoose.model('Vendor').findById(obj.vendor).populate('products')
-//           .then(function(vendor){
-//             vendor.products.push(instance._id);
-//             instance.vendor = vendor._id;
-//             return Promise.all([instance.save(), vendor.save()]);
-//           })
-//           .spread(function(product, vendor){
-//             resolve(product);
-//           })
-//           .catch(function(err){
-//             reject(err);
-//           });
-//         }
-//         else
-//           resolve(instance);
-//         });
-//   });
-// };
+
 
 module.exports = mongoose.model('Product', productSchema);
