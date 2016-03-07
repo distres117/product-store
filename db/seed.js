@@ -7,35 +7,35 @@ var RefArray = require('../utils/ref-array'),
 
 var products = [
         {
-            _id: 4,
+            _id: 3,
             name: 'Sink',
             quantity: 3,
             description: 'Ivory white, Perfect for kitchens',
-            vendor: 1,
+            vendor: 0,
             status : 'active'
         },
         {
-            _id: 5,
+            _id: 4,
             name: '8K Televison',
             quantity: 5,
             description: 'Get on the bleeding edge of entertainmemt',
-            vendor: 2,
+            vendor: 1,
             status: 'active'
         },
         {
-            _id: 6,
+            _id: 5,
             name: 'Super-computer',
             quantity: 1,
             description: 'Now conveniently sits on your desk',
-            vendor: 2,
+            vendor: 1,
             status: 'discontinued'
         },
         {
-            _id: 7,
+            _id: 6,
             name: 'Cross-cut paper shredder',
             quantity: 8,
             description: 'The best way to dispose of incriminating documents',
-            vendor: 3,
+            vendor: 2,
             status: 'active'
         }
 
@@ -43,28 +43,28 @@ var products = [
 
 var vendors = [
         {
-            _id: 1,
+            _id: 0,
             name: 'GougeCo',
             email: 'gougeco@gouged.com',
             type: 'Kitchen',
             description: 'Here, the customer is our chum...',
-            products: [4]
+            products: [3]
         },
         {
-            _id : 2,
+            _id : 1,
             name: 'DNS Electronics',
             email: 'service@dnselectronics.com',
             type: 'Electronics',
             description: 'Definitely Not Shoddy electronics was founded with the simple...',
-            products: [5,6]
+            products: [4,5]
         },
         {
-            _id: 3,
+            _id: 2,
             name: 'Paperclips',
             email: 'customers@paperclips.com',
             type: 'Home & Office',
             description: 'Let us supply your home office...',
-            products: [7]
+            products: [6]
         }
     ];
 

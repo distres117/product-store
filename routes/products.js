@@ -1,6 +1,7 @@
 var Product = require("../models/product"),
     Vendor = require("../models/vendor"),
-    router = require('express').Router();
+    router = require('express').Router(),
+    Promise = require('bluebird');
 
 require('../db/db')();
 
@@ -18,10 +19,10 @@ router.param('id', function(req,res,next,id){
 router.route('/')
     .get(function(req,res,next){
       var noshow = req.query.filter || '';
-       Product.find()
-       .then(function(products){
+       Promise.all([Product.find(), Vendor.find()])
+       .spread(function(products, vendors){
          products = products.filter(it=>it.status != noshow);
-         res.render('products/index', {products: products, noshow:noshow});
+         res.status(200).render('products/index', {products: products, noshow:noshow, vendors: vendors});
        })
        .catch(function(err){
          next(err);

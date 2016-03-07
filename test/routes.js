@@ -2,7 +2,7 @@ var expect = require('chai').expect,
     request = require('supertest-as-promised')(require('../app')),
     seed = require('../db/seed');
 
-describe('Routes', function(){
+xdescribe('Routes', function(){
   var newProduct;
   var newVendor;
   before(function(){

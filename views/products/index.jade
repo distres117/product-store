@@ -10,6 +10,12 @@ block body
       label.col-sm-2.control-label(for='descInput') Description
       .col-sm-10
         textarea.form-control(rows='3', name='description', id='descInput')
+    .form-group
+      label.col-sm-2.control-label(for='vendorInput') Vendor Name
+      .col-sm-6
+        select.form-control(name='vendor', id='vendorInput')
+          each vendor in vendors
+            option(value='#{vendor._id}')= vendor.name
   if (!noshow)
     a.pull-right(href='/products?filter=discontinued') Show active only
   else

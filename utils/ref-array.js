@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-    
+
 
 function RefArray(model, fields, arr,fn){
     for (var i in arr)
@@ -21,7 +21,7 @@ RefArray.prototype.build = function(){
     }
   }
   var model = mongoose.model(this.model);
-  return this.arr.map(i=>new model(i))
-}
+  return this.arr.map(i=>new model(i));
+};
 
 module.exports = RefArray;

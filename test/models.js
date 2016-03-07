@@ -59,4 +59,39 @@ describe('Model operations', function(){
          expect(err.message).to.equal('Product validation failed');
       });
    });
+   it('All vendors have at least one product', function(){
+     return Vendor.find()
+     .then(function(vendors){
+       expect(vendors.every(it=>it.products.length)).to.equal(true);
+     });
+   });
+   it('Removing product also removes product from vendor collection', function(){
+     return Product.findOne({name: 'Sink'})
+     .then(function(product){
+       return product.remove();
+     })
+     .then(function(){
+       return Vendor.findOne({name: 'GougeCo'});
+     })
+     .then(function(vendor){
+         expect(vendor.products.length).to.equal(0);
+       });
+     });
+     it('Adding product with vendor updates the vendors collection', function(done){
+       var newvendor;
+       Vendor.create({name: 'Test vendor', email: 'testy@test.com', type: 'Kitchen'})
+       .then(function(vendor){
+         newvendor = vendor;
+        return Product.create({name: 'Test product', description: "tesy", vendor: vendor._id});
+      })
+      .then(function(product){
+         return product.sync();
+      })
+      .then(function(){
+       console.log(newvendor);
+       expect(newvendor.products.length).to.equal(1);
+       done();
+     });
+  });
+
 });
