@@ -1,11 +1,11 @@
-.row > * {
+.row * {
   margin-left: 15px;
   margin-right: 15px;
   margin-bottom: 10px;
 }
 
 .row > :first-child{
-  margin-left: 15%;
+  margin-left: 5%;
 }
 .row{
   clear:both;
