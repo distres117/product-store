@@ -66,6 +66,10 @@ productSchema.pre('remove', function(next){
   })
   .then(function(){
     next();
+  })
+  .catch(function(err){
+     console.log(err);
+     next();
   });
 });
 

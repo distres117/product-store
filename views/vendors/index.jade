@@ -1,0 +1,36 @@
+extends ../layout.jade
+block body
+  form.form-horizontal(action='/vendors', method='POST')
+    .form-group
+      label.col-sm-2.control-label(for='nameInput') Vendor Name
+      .col-sm-8
+        input.form-control(type='text', name='name', id='nameInput')
+      button.btn.btn-primary(type='submit') Add a vendor
+    .form-group
+      label.col-sm-2.control-label(for='emailInput') Vendor Email
+      .col-sm-8
+        input.form-control(type='text', name='email', id='emailInput')
+    .form-group
+      label.col-sm-2.control-label(for='descInput') Description
+      .col-sm-10
+        textarea.form-control(rows='3', name='description', id='descInput')
+    .form-group
+      label.col-sm-2.control-label(for='typeInput') Vendor Type
+      .col-sm-6
+        select.form-control(name='type', id='typeInput')
+            option(value='Home & Office') Home & Office
+            option(value='Kitchen') Kitchen
+            option(value='Electronics') Electronics
+  each vendor,index in vendors
+    .row
+      img(src="http://unsplash.it/75/75?image=" + index * 10)
+      a(href='#', data-toggle='collapse', data-target='#desc#{index}')= vendor.name
+      span= vendor.email
+      span= vendor.type
+      span Products: 
+        =vendor.products.length
+      a.btn.btn-danger(href='/vendors/#{vendor._id}?method=delete') Delete
+      .row(class='collapse', id="desc#{index}")
+        span= vendor.description
+        
+    

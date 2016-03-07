@@ -19,5 +19,5 @@
 }
 
 .quantity-form {
-  display: inline;
+  display: inline-block;
 }

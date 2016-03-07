@@ -16,13 +16,13 @@ router.route('/')
   .get(function(req, res){
     Vendor.find()
     .then(function(vendors){
-      res.status(200).json(vendors);
+      res.status(200).render('vendors/index', {vendors: vendors});
     });
   })
   .post(function(req,res,next){
     Vendor.create(req.body)
     .then(function(vendor){
-      res.status(302).json(vendor);
+      res.redirect('/vendors');
     })
     .catch(function(err){
       next(err);
@@ -35,7 +35,7 @@ router.route('/:id')
   .delete(function(req,res,next){
     req.vendor.remove()
     .then(function(){
-      res.sendStatus(200);
+      res.redirect('/vendors');
     });
   });
 

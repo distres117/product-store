@@ -41,7 +41,6 @@ router.route('/:id')
     res.status(200).json(req.product);
   })
   .put(function(req,res, next){
-    console.log(req.body);
     req.product.update(req.body)
     .then(function(product){
       //res.status(302).json(product);
@@ -52,7 +51,7 @@ router.route('/:id')
     });
   })
   .delete(function(req,res,next){
-    Product.remove({_id: req.product._id})
+    req.product.remove()
     .then(function(){
       res.redirect('/products');
     })

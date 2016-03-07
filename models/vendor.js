@@ -26,7 +26,6 @@ var vendorSchema = new mongoose.Schema({
 });
 
 vendorSchema.pre('remove', function(next){
-    console.log('vendor sync..');
   Promise.map(this.products, function(id){
     return mongoose.model('Product').findByIdAndRemove(id);
   })

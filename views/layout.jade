@@ -7,12 +7,12 @@ html
     nav.navbar.navbar-inverse
       .container-fluid
         .navbar-header
-          a.navbar-brand(href='') Supply Store
+          a.navbar-brand(href='/products') Supply Store
         ul.nav.navbar-nav
-          li.active
-            a(href='') Products
           li
-            a(href='') Vendors
+            a(href='/products') Products
+          li
+            a(href='/vendors') Vendors
     .container
       block body
     script(type='text/javascript', src='/jquery/dist/jquery.min.js')

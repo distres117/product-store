@@ -27,7 +27,9 @@ app.use(function(err,req,res,next){ //error-handling
         res.statusCode(500);
     next();
 });
-
+app.get('/',function(req,res){
+    res.redirect('/products');
+})
 app.use('/products',productRoutes);
 app.use('/vendors', vendorRoutes);
 
