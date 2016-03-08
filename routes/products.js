@@ -10,10 +10,7 @@ router.param('id', function(req,res,next,id){
   .then(function(product){
     req.product = product;
     next();
-  })
-  .catch(function(err){
-    next(err);
-  });
+  }, next);
 });
 
 router.route('/')
@@ -22,45 +19,32 @@ router.route('/')
        Promise.all([Product.find(), Vendor.find()])
        .spread(function(products, vendors){
          products = products.filter(it=>it.status != noshow);
-         res.status(200).render('products/index', {products: products, noshow:noshow, vendors: vendors});
-       })
-       .catch(function(err){
-         next(err);
-       });
+         res.render('products/index', {products: products, noshow:noshow, vendors: vendors});
+       }, next);
     })
     .post(function(req,res,next){
       Product.create(req.body)
       .then(function(product){
-        //res.status(302).json(product);
         res.redirect('/products');
-      })
-      .catch(function(err){
-        next(err);
-      });
+      }, next);
     });
 
 router.route('/:id')
-  .get(function(req,res){
-    res.status(200).json(req.product);
+  .get(function(req, res){
+    res.send(req.product);
   })
   .put(function(req,res, next){
     req.product.update(req.body)
     .then(function(product){
       //res.status(302).json(product);
       res.redirect('/products');
-    })
-    .catch(function(err){
-      next(err);
-    });
+    }, next);
   })
   .delete(function(req,res,next){
     req.product.remove()
     .then(function(){
       res.redirect('/products');
-    })
-    .catch(function(err){
-      next(err);
-    });
+    }, next);
   });
 
 module.exports = router;

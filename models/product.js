@@ -41,20 +41,14 @@ productSchema.post('save', function(doc, next){
     var instance = doc;
     getVendor(instance)
     .then(function(vendor){
-        if (vendor.products.indexOf(instance._id) === -1){
-            vendor.products.push(instance._id);
-            vendor.save()
-            .then(function(vendor){;
-               next(); 
-            })
-            .catch(function(err){
-               next(err); 
-            });
-        } 
-        else
-            next();
+        if (vendor.products.indexOf(instance._id) !== -1)
+          return next();
+        vendor.products.push(instance._id);
+        vendor.save()
+        .then(function(vendor){
+           next(); 
+        }, next);
     })
-    
 });
 
 productSchema.pre('remove', function(next){
@@ -73,6 +67,7 @@ productSchema.pre('remove', function(next){
 });
 
 productSchema.methods.update = function(obj){
+  //for future reference.. security issue?
   for (var key in obj){
     if(obj[key])
       this[key] = obj[key];

@@ -10,10 +10,11 @@ app.set('views', __dirname + '/views');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
+app.use(bodyParser.json());//are you doing json parsing?
 app.use(express.static('node_modules'));
 app.use(express.static('public'));
 
+//if you're going to do your own override-- why not put it in another file to keep this cleaner..
 app.use(function(req,res,next){ //method override
     if (req.query.method)
         req.method = req.query.method;
@@ -25,8 +26,10 @@ app.use(function(req,res,next){ //method override
 
 app.get('/',function(req,res){
     res.redirect('/products');
-})
+});
+
 app.use('/products',productRoutes);
+
 app.use('/vendors', vendorRoutes);
 
 app.use(function(err,req,res,next){ //error-handling
