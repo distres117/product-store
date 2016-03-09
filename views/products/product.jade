@@ -1,0 +1,14 @@
+.row(class=(product.status==='active' ? "" : "well"))
+    img(src="http://unsplash.it/75/75?image=" + index * 10)
+    a(href='#', data-toggle='collapse', data-target='#desc#{index}')= product.name
+    form.form-inline.quantity-form(action='/products/#{product._id}?method=put', method='POST')
+        .form-group
+            input.form-control(type='text', id='productQuantity', name='quantity', value="#{product.quantity}")
+            button.btn.btn-default(type='submit') Update # in stock
+        if product.status=== 'active'
+            a.btn.btn-danger(href='/products/#{product._id}?status=discontinued&method=put') Discontinue
+        else
+            a.btn.btn-primary(href='/products/#{product._id}?status=active&method=put') Recontinue
+    .row(class='collapse', id="desc#{index}")
+        span= product.description
+        a.btn.btn-danger(href='/products/#{product._id}?method=delete') Delete

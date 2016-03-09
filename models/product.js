@@ -32,38 +32,33 @@ var productSchema = new mongoose.Schema({
 });
 
 
-function getVendor(instance){
-    var Vendor = mongoose.model('Vendor');
-    return Vendor.findById(instance.vendor);
-}
-
 productSchema.post('save', function(doc, next){
     var instance = doc;
-    getVendor(instance)
+    var Vendor = mongoose.model('Vendor')
+    Vendor.findOne({_id: instance.vendor, products: {$ne: instance._id}})
     .then(function(vendor){
-        if (vendor.products.indexOf(instance._id) !== -1)
-          return next();
+        if (!vendor)
+            return next();
         vendor.products.push(instance._id);
-        vendor.save()
-        .then(function(vendor){
-           next(); 
-        }, next);
+        return vendor.save()
     })
+    .then(function(vendor){
+       next();
+    });
+     
 });
 
 productSchema.pre('remove', function(next){
-  var instance = this;
-  getVendor(instance)
-  .then(function(vendor){
-    vendor.products.remove(instance._id);
-    vendor.save();
-  })
-  .then(function(){
-    next();
-  })
-  .catch(function(err){
-     next(err);
-  });
+    var Vendor = mongoose.model('Vendor')
+    var instance = this;
+    Vendor.findById(instance.vendor)
+    .then(function(vendor){
+        vendor.products.remove(instance._id);
+        vendor.save();
+    })
+    .then(function(){
+        next();
+    }, next);
 });
 
 productSchema.methods.update = function(obj){

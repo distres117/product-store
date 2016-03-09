@@ -3,7 +3,6 @@ var Product = require("../models/product"),
     router = require('express').Router(),
     Promise = require('bluebird');
 
-require('../db/db')();
 
 router.param('id', function(req,res,next,id){
   Product.findById(id).populate('vendor')

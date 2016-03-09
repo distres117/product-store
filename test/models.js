@@ -3,7 +3,7 @@ var expect = require('chai').expect,
     Vendor = require('../models/vendor'),
     seed = require('../db/seed');
 
-describe('basic db operations', function(){
+xdescribe('basic db operations', function(){
    it('Connects to db',function(){
        return seed.dbconnect()
       .then(function(){
@@ -88,6 +88,21 @@ describe('Model operations', function(){
          .then(function(vendor){
             expect(vendor.products.length).to.equal(1);
          });
+      });
+      it('Does not add duplicate products', function() {
+         return Product.findOne({name:'Test product'}).populate('vendor')
+         .then(function(product){
+            product.name = 'Updated test product';
+            return product.save();
+         })
+         .then(function(product){
+            return Vendor.findOne({name: 'Test vendor'});
+         })
+         .then(function(vendor){
+            expect(vendor.products.length).to.equal(1);
+         })
+         
+         
       });
       it('Removes all vendor products when vendor is removed', function(){
          return Vendor.findOne({name:'Test vendor'})
